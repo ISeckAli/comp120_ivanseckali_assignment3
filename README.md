@@ -71,4 +71,7 @@ comp120_ivanseckali_assignment3/
 - **Smooth hover animations** on cards, buttons, and stats
 - **Accessible** — keyboard navigable, ARIA roles and labels throughout
 
-```
+
+## Author
+
+- Ivan Seck Ali
