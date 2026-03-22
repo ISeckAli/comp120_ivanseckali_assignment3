@@ -63,9 +63,6 @@ comp120_ivanseckali_assignment3/
 ├── script.js    # App logic — state management, CRUD, search, filter, render
 └── README.md    # This file
 ```
-## Author
-Ivan Seck Ali
----
 
 ## Design Highlights
 
@@ -74,3 +71,10 @@ Ivan Seck Ali
 - **Smooth hover animations** on cards, buttons, and stats
 - **Accessible** — keyboard navigable, ARIA roles and labels throughout
 
+```
+
+## Author
+
+- Ivan Seck Ali
+
+---
