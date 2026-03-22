@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TaskFlow – Task Manager</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <!-- ===== HEADER ===== -->
+  <header class="header">
+    <div class="header-inner">
+      <div class="logo">
+        <span class="logo-icon">✦</span>
+        <span class="logo-text">TaskFlow</span>
+      </div>
+      <p class="header-tagline">Stay organized. Ship faster.</p>
+    </div>
+  </header>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+
+    <!-- ── Stats Bar ── -->
+    <section class="stats-bar" aria-label="Task statistics">
+      <div class="stat-card">
+        <span class="stat-value" id="stat-total">0</span>
+        <span class="stat-label">Total</span>
+      </div>
+      <div class="stat-card stat-card--pending">
+        <span class="stat-value" id="stat-pending">0</span>
+        <span class="stat-label">Pending</span>
+      </div>
+      <div class="stat-card stat-card--completed">
+        <span class="stat-value" id="stat-completed">0</span>
+        <span class="stat-label">Completed</span>
+      </div>
+      <div class="stat-card stat-card--high">
+        <span class="stat-value" id="stat-high">0</span>
+        <span class="stat-label">High Priority</span>
+      </div>
+    </section>
+
+    <!-- ── Add / Edit Task Form ── -->
+    <section class="form-section" aria-label="Add or edit a task">
+      <h2 class="section-title" id="form-title">Add New Task</h2>
+      <form id="task-form" novalidate>
+        <div class="form-grid">
+          <div class="form-group form-group--wide">
+            <label for="task-title">Task Title <span class="required">*</span></label>
+            <input
+              type="text"
+              id="task-title"
+              placeholder="What needs to be done?"
+              maxlength="120"
+              autocomplete="off"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="task-priority">Priority</label>
+            <select id="task-priority">
+              <option value="low">🟢 Low</option>
+              <option value="medium" selected>🟡 Medium</option>
+              <option value="high">🔴 High</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="task-due">Due Date <span class="optional">(optional)</span></label>
+            <input type="date" id="task-due" />
+          </div>
+          <div class="form-group form-group--wide">
+            <label for="task-description">Notes <span class="optional">(optional)</span></label>
+            <textarea
+              id="task-description"
+              placeholder="Add extra details…"
+              rows="2"
+              maxlength="300"
+            ></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn--primary" id="form-submit-btn">
+            <span>＋</span> Add Task
+          </button>
+          <button type="button" class="btn btn--ghost" id="form-cancel-btn" hidden>
+            Cancel
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ── Search & Filter ── -->
+    <section class="toolbar" aria-label="Search and filter tasks">
+      <div class="search-wrapper">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input
+          type="search"
+          id="search-input"
+          placeholder="Search tasks…"
+          aria-label="Search tasks"
+        />
+      </div>
+      <div class="filter-tabs" role="tablist" aria-label="Filter tasks">
+        <button class="filter-btn active" data-filter="all" role="tab" aria-selected="true">All</button>
+        <button class="filter-btn" data-filter="pending" role="tab" aria-selected="false">Pending</button>
+        <button class="filter-btn" data-filter="completed" role="tab" aria-selected="false">Completed</button>
+        <button class="filter-btn" data-filter="high" role="tab" aria-selected="false">High Priority</button>
+      </div>
+    </section>
+
+    <!-- ── Task List ── -->
+    <section class="tasks-section" aria-label="Task list">
+      <div id="task-list" class="task-list" role="list" aria-live="polite"></div>
+      <div id="empty-state" class="empty-state" hidden>
+        <span class="empty-icon">📋</span>
+        <p>No tasks found.</p>
+        <small>Try a different filter or add a new task above.</small>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===== EDIT MODAL ===== -->
+  <div id="edit-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-heading" hidden>
+    <div class="modal-overlay" id="modal-overlay"></div>
+    <div class="modal-box">
+      <h2 class="modal-title" id="modal-heading">Edit Task</h2>
+      <form id="edit-form" novalidate>
+        <input type="hidden" id="edit-task-id" />
+        <div class="form-grid">
+          <div class="form-group form-group--wide">
+            <label for="edit-title">Task Title <span class="required">*</span></label>
+            <input type="text" id="edit-title" maxlength="120" required />
+          </div>
+          <div class="form-group">
+            <label for="edit-priority">Priority</label>
+            <select id="edit-priority">
+              <option value="low">🟢 Low</option>
+              <option value="medium">🟡 Medium</option>
+              <option value="high">🔴 High</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="edit-due">Due Date</label>
+            <input type="date" id="edit-due" />
+          </div>
+          <div class="form-group form-group--wide">
+            <label for="edit-description">Notes</label>
+            <textarea id="edit-description" rows="2" maxlength="300"></textarea>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn btn--primary">Save Changes</button>
+          <button type="button" class="btn btn--ghost" id="modal-cancel-btn">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== DELETE CONFIRM MODAL ===== -->
+  <div id="delete-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="delete-heading" hidden>
+    <div class="modal-overlay" id="delete-modal-overlay"></div>
+    <div class="modal-box modal-box--sm">
+      <h2 class="modal-title" id="delete-heading">Delete Task?</h2>
+      <p class="modal-body-text">This action cannot be undone.</p>
+      <div class="form-actions">
+        <button class="btn btn--danger" id="confirm-delete-btn">Delete</button>
+        <button class="btn btn--ghost" id="cancel-delete-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="footer">
+    <p>TaskFlow &copy; 2025 &mdash; Built with HTML, CSS &amp; JavaScript</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
