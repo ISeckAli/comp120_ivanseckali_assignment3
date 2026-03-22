@@ -63,7 +63,8 @@ comp120_ivanseckali_assignment3/
 ├── script.js    # App logic — state management, CRUD, search, filter, render
 └── README.md    # This file
 ```
-
+## Author
+Ivan Seck Ali
 ---
 
 ## Design Highlights
