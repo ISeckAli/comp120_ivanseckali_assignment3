@@ -72,9 +72,3 @@ comp120_ivanseckali_assignment3/
 - **Accessible** — keyboard navigable, ARIA roles and labels throughout
 
 ```
-
-## Author
-
-- Ivan Seck Ali
-
----
